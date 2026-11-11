@@ -1,0 +1,115 @@
+{
+  "spec_url": "https://github.com/lastnurik/FileShift/issues/1",
+  "tickets": {
+    "FS-01": {
+      "number": 2,
+      "url": "https://github.com/lastnurik/FileShift/issues/2",
+      "title": "FS-01: Preserve baseline and configure tracking",
+      "id": 6338638689,
+      "blockers": []
+    },
+    "FS-02": {
+      "number": 3,
+      "url": "https://github.com/lastnurik/FileShift/issues/3",
+      "title": "FS-02: Ubuntu right-click selection popup",
+      "id": 6338639184,
+      "blockers": [
+        "FS-01"
+      ]
+    },
+    "FS-03": {
+      "number": 4,
+      "url": "https://github.com/lastnurik/FileShift/issues/4",
+      "title": "FS-03: Ubuntu shortcut selection popup",
+      "id": 6338639766,
+      "blockers": [
+        "FS-02"
+      ]
+    },
+    "FS-04": {
+      "number": 5,
+      "url": "https://github.com/lastnurik/FileShift/issues/5",
+      "title": "FS-04: Windows Explorer integration prototype",
+      "id": 6338640345,
+      "blockers": [
+        "FS-01"
+      ]
+    },
+    "FS-05": {
+      "number": 6,
+      "url": "https://github.com/lastnurik/FileShift/issues/6",
+      "title": "FS-05: macOS Finder integration prototype",
+      "id": 6338640896,
+      "blockers": [
+        "FS-01"
+      ]
+    },
+    "FS-06": {
+      "number": 7,
+      "url": "https://github.com/lastnurik/FileShift/issues/7",
+      "title": "FS-06: Integration feasibility review",
+      "id": 6338641428,
+      "blockers": [
+        "FS-03",
+        "FS-04",
+        "FS-05"
+      ]
+    },
+    "FS-07": {
+      "number": 8,
+      "url": "https://github.com/lastnurik/FileShift/issues/8",
+      "title": "FS-07: First complete image conversion",
+      "id": 6338641954,
+      "blockers": [
+        "FS-06"
+      ]
+    },
+    "FS-08": {
+      "number": 9,
+      "url": "https://github.com/lastnurik/FileShift/issues/9",
+      "title": "FS-08: Complete still-image routes",
+      "id": 6338642454,
+      "blockers": [
+        "FS-07"
+      ]
+    },
+    "FS-09": {
+      "number": 10,
+      "url": "https://github.com/lastnurik/FileShift/issues/10",
+      "title": "FS-09: DOCX to PDF",
+      "id": 6338642990,
+      "blockers": [
+        "FS-07"
+      ]
+    },
+    "FS-10": {
+      "number": 11,
+      "url": "https://github.com/lastnurik/FileShift/issues/11",
+      "title": "FS-10: Markdown to PDF",
+      "id": 6338643539,
+      "blockers": [
+        "FS-07"
+      ]
+    },
+    "FS-11": {
+      "number": 12,
+      "url": "https://github.com/lastnurik/FileShift/issues/12",
+      "title": "FS-11: Native distribution and source builds",
+      "id": 6338644002,
+      "blockers": [
+        "FS-08",
+        "FS-09",
+        "FS-10"
+      ]
+    },
+    "FS-12": {
+      "number": 13,
+      "url": "https://github.com/lastnurik/FileShift/issues/13",
+      "title": "FS-12: V1 release review",
+      "id": 6338644548,
+      "blockers": [
+        "FS-11"
+      ]
+    }
+  }
+}
