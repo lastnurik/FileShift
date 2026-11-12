@@ -5,7 +5,9 @@ file manager. The product contract is in [PROJECT.md](PROJECT.md), terminology i
 [CONTEXT.md](CONTEXT.md), and implementation sequence in [WORKFLOW.md](WORKFLOW.md).
 
 There is no working converter or native installation package yet. No Windows, macOS,
-or Ubuntu desktop integration has passed native acceptance.
+or Ubuntu desktop integration has passed full native acceptance. A GNOME Files
+action-handler smoke check now reaches a visible popup; keyboard and actual
+right-click menu acceptance remain open.
 
 ## Development environment
 
@@ -31,7 +33,8 @@ cargo clippy --workspace --all-targets --locked --offline -- -D warnings
 python3 -m unittest discover -s platform/linux/tests -v
 ```
 
-These commands pass with Rust/Cargo 1.99.1 on the environment above. The Cargo
+Build and tests also pass from a clean source archive with the host Rust/Cargo
+1.99.1 toolchain on the environment above. The Cargo
 workspace has no third-party dependencies. Python 3 is used only for developer
 script setup/tests. The disposable Linux popup requires `/usr/bin/zenity`
 (tested command interface: 4.2.1). Example without opening a popup:
@@ -42,6 +45,19 @@ target/debug/fileshift-prototype --check --nautilus-script -- README.md
 
 The diagnostic output contains accepted/rejected counts and no paths. The real
 popup is a clearly marked selection-inspection prototype with no conversion routes.
+An opt-in native action-handler smoke check is also available on the tested host
+with system Python GI and AT-SPI introspection installed:
+
+```sh
+python3 platform/linux/native_action_smoke.py --run \
+  --binary "$PWD/target/debug/fileshift-prototype"
+```
+
+It temporarily installs an owned script, opens a disposable fixture window and
+popup, verifies its accessible state/counts, then removes the script and closes
+its window. It refuses an existing script or popup. This passed on the named
+Ubuntu environment; it does not test actual context-menu navigation or Escape.
+
 See the [prototype procedure](docs/research/ubuntu-prototype-procedure.md) for
 staging, developer installation/removal, and pending native checks. No native
 installer/package, global shortcut, or platform compatibility is established.
@@ -57,8 +73,9 @@ See [bootstrap evidence](docs/bootstrap-evidence.md) for checks and open blocker
 
 The approved design baseline is commit
 `1a75db0e1f32b22391a86a9ccde309611ec43cdd`, pushed through SSH to
-`git@github.com:lastnurik/FileShift.git`. Git metadata writes require approved
-escalation in the current managed sandbox. SSH uses an explicit empty config and
+`git@github.com:lastnurik/FileShift.git`. The latest session permits Git metadata
+writes directly; initial setup required
+approved escalation under the earlier sandbox. SSH uses an explicit empty config and
 strict host-key checking because the default system include has an ownership issue
 in this session. No SSH keys or system configuration were changed.
 

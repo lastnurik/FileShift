@@ -217,3 +217,45 @@ Moved that wording into the Linux presenter; core returns structured status code
 Spec review confirmed native requirements remain pending and requested historical
 ticket text corrections; those are applied. Rechecked Cargo tests, Clippy,
 formatting and gateway checks after the review fix.
+
+## Unrestricted-session continuation and native action smoke
+
+The subsequent session reports danger-full-access with enabled network and no
+approval prompts. Direct statvfs now confirms .git is writable. Configured the
+previously verified explicit SSH command locally and pushed FS-01 and FS-02.
+Final review rechecks: standards finding resolved; spec reviewer found no new
+incorrect behavior, with native requirements correctly left open.
+
+Native Python GI/AT-SPI is available despite the browser tool lacking native
+computer APIs. Installed the developer script and opened only disposable Files
+fixture windows. A repeatable native_action_smoke.py now verifies real Files
+selection → installed script action handler → showing/active Zenity popup with
+2 accepted, 0 rejected → Close button dismissal. The successful run cleaned up
+its script and fixture window. A failed early harness attempt was corrected for
+the installed action-name binding and asynchronous selection delivery; leftover
+owned scripts/windows were removed. No existing scripts were overwritten.
+
+An Escape synthesis return of true did not close the dialog; event delivery is
+unproven and Escape remains unverified. Actual context-menu interaction, exact
+argument identity, full keyboard flow, placement and broader native cases remain
+open. This is a native action-handler smoke, not completed FS-02 or Ubuntu support.
+See docs/research/ubuntu-prototype-procedure.md for command, versions and limits.
+
+A clean source archive of commit b6b5301 was extracted into a temporary directory
+without .tools or target. Using the verified host Rust/Cargo toolchain, offline
+workspace build, all 3 Rust tests and both Python gateway tests passed from that
+archive. This checks source completeness on this Ubuntu host, not a clean-machine
+native package installation or another platform.
+
+Native smoke review identified timeout cleanup ownership and the need to enforce
+ACTIVE on future passes. Astra hardened the launcher/process-group tracking,
+bounded fixture-window cleanup, exact argv/cwd observation and active-state check.
+The coordinator independently reran the native helper successfully: exact fixture
+selection passed, popup SHOWING/ACTIVE true, and Close passed. Private fixture
+paths existed only in the removed temporary directory; default diagnostics remain
+redacted. Physical right-click and keyboard/Escape acceptance remain open.
+
+Failure-path verification invoked the native smoke with /bin/false as a deliberately
+failing process boundary. It exited 1 after the expected popup timeout. Independent
+inspection found zero owned fixture windows and no installed prototype script.
+This checks timeout cleanup without claiming keyboard or menu acceptance.

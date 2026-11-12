@@ -44,3 +44,18 @@ structured status codes and rendering GNOME instructions in the Linux presenter.
 Spec review confirmed native observations remain pending and identified stale
 historical ticket text, corrected here. Automated checks cannot establish native
 identity, selection provenance, focus, placement or keyboard dismissal.
+
+## Native action-handler smoke — 2026-11-12
+
+A real Files fixture selection reached the installed script action handler and a
+showing, active FileShift Prototype popup (2 accepted, 0 rejected); its Close
+button dismissed it. The repeatable helper removed its script and closed its
+fixture window. Ubuntu 26.04.1 LTS, GNOME Shell 50.1, Wayland, Files 50.2.2,
+Zenity 4.2.1. Full right-click menu and keyboard/Escape acceptance remain open:
+Escape synthesis acknowledged the request but did not close the popup.
+See docs/research/ubuntu-prototype-procedure.md for exact command and limits.
+
+The follow-up native run also verified both exact fixture paths through a private
+launcher observer, required SHOWING and ACTIVE, and used scoped process ownership
+for timeout cleanup. The fixture identity case passed; unusual filename bytes,
+multiple windows/tabs and full desktop interaction still require native checks.

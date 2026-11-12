@@ -7,9 +7,9 @@ The design interview is concluded. Implement PROJECT.md; resolve remaining techn
 The repository is public, with SSH Git transport, one commit per completed task,
 native packages, and a source-build option. The design baseline is
 `1a75db0e1f32b22391a86a9ccde309611ec43cdd`, pushed to lastnurik/FileShift.
-The managed sandbox still mounts .git read-only; approved escalation enabled Git
-initialization, commits, and the SSH push. Use normal approval handling for Git
-metadata writes. See docs/bootstrap-evidence.md for historical and current checks.
+Approved escalation enabled initial Git setup and the SSH push. The latest
+session reports unrestricted filesystem access and enabled network; direct checks
+confirm .git is writable. Recheck effective permissions after session changes. See docs/bootstrap-evidence.md for historical and current checks.
 
 ## Bootstrap
 

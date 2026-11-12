@@ -121,7 +121,7 @@ python3 platform/linux/setup_prototype.py remove \
 For the staged script, use the staging directory instead. A changed script needs
 manual inspection before removal; the helper intentionally does not force it.
 
-## Automated evidence
+## Automated evidence before the native follow-up
 
 Read-only environment inspection reported Ubuntu 26.04.1 LTS, Wayland,
 `XDG_CURRENT_DESKTOP=ubuntu:GNOME`, Nautilus `1:50.2.2-0ubuntu0.2`, GNOME Shell
@@ -133,5 +133,57 @@ failed before setup existed, then passed after implementation; the second failed
 before removal existed, then passed. They verify native argv bytes and cwd at the
 launched executable boundary, lack of shell evaluation, refusal to overwrite,
 preservation of modified scripts, and removal of an unchanged owned script.
-They do not invoke GNOME Files or a real popup. No desktop installation, native
-selection capture, keyboard interaction, or compatibility is claimed here.
+Those gateway checks do not invoke GNOME Files or a real popup. At that stage,
+no desktop installation, native selection capture or keyboard interaction had
+been observed. The subsequent action-handler evidence is recorded below.
+
+## Native action-handler evidence — 2026-11-12
+
+After the session changed to unrestricted filesystem access, direct checks confirmed
+writable Git metadata and HTTPS/SSH network access. Native accessibility inspection
+became available through system Python GI/AT-SPI (python3-gi 3.56.2-1,
+gir1.2-atspi-2.0 2.60.4-0ubuntu0.1). The named OS/session/Files versions above
+were unchanged. This is desktop evidence, narrower than complete native acceptance.
+
+The repeatable opt-in command is:
+
+```sh
+python3 platform/linux/native_action_smoke.py --run \
+  --binary "$PWD/target/debug/fileshift-prototype"
+```
+
+It passed with two disposable local fixtures (space and Unicode names). A private
+launcher observer confirmed both exact paths and launch cwd before exec of the
+Rust binary; those paths were kept only in the temporary test directory. The
+native Files view selected both files; its installed script action handler launched
+an accessible, showing, active FileShift Prototype dialog reporting two accepted
+and zero rejected files. The Close button dismissed it. The helper removed its
+unchanged script and closed only its fixture window. No original or output changed.
+
+This invokes the real action handler through accessibility; it does not exercise
+physical right-click or navigate the Scripts submenu. A separate Escape synthesis
+attempt returned true but left the popup open under Wayland; delivery is unproven,
+so keyboard/Escape acceptance stays open. Pointer anchoring, unusual filename byte cases beyond these fixtures,
+multiple-window/tab correctness, failure feedback, invalid/nonlocal item cases,
+restart/login and full installed lifecycle also remain unverified.
+
+Context7 resolved AT-SPI Rust documentation and supplied protocol/tree/action
+background; Python binding coverage was unavailable. Official GNOME libatspi docs
+were checked for [desktop traversal](https://gnome.pages.gitlab.gnome.org/at-spi2-core/libatspi/func.get_desktop.html),
+[action invocation](https://gnome.pages.gitlab.gnome.org/at-spi2-core/libatspi/method.Action.do_action.html),
+and [keyboard synthesis](https://gnome.pages.gitlab.gnome.org/at-spi2-core/libatspi/func.generate_keyboard_event.html).
+The installed binding exposes get_action_name; the newer documentation's get_name
+is unavailable on its Action interface, so the helper uses the working deprecated
+binding. A synthesis API success return was not treated as observed keyboard delivery.
+
+Review follow-up hardened timeout cleanup: the test launcher uses a new process
+session and records its PID/start time. Popup ownership is verified by that process
+group; cleanup signals only the matching live group and performs bounded discovery
+of the uniquely named fixture window, including when initial discovery failed.
+Success now requires both SHOWING and ACTIVE. The coordinator independently reran
+the helper and observed exact fixture selection, active/showing popup and Close
+all pass. Physical right-click and Escape remain unverified.
+
+Failure-path check: the same helper with /bin/false as its disposable process
+boundary returned the expected timeout failure. Independent inspection confirmed
+zero owned fixture windows and no remaining installed script after cleanup.
