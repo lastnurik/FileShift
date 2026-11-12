@@ -167,3 +167,21 @@ No user decision or approval is pending for routine work. The remaining baseline
 requires a writable Git metadata session; Windows/macOS acceptance requires native
 environments. These cannot be supplied by the current execution tools. All tracked
 implementation and release acceptance remains open.
+
+## New-session permission recheck and baseline
+
+2026-11-12: `/status` is not an exposed session tool; attempting it through the
+shell returned no such file or directory. Effective settings report workspace-write
+and enabled network. Direct checks verified workspace temporary-file creation and
+HTTPS github.com HTTP 200. `statvfs(.git)` still reports ST_RDONLY in the sandbox,
+and ordinary git init failed. Normal approval escalation succeeded; no filesystem
+permissions, mount, or alternate metadata directory was changed.
+
+- Initialized Git, set branch main and SSH origin.
+- Preserved all 52 existing project/design files in baseline
+  `1a75db0e1f32b22391a86a9ccde309611ec43cdd` before implementing.
+- Pushed main successfully over SSH using the previously verified explicit config
+  and strict host-key checking; upstream tracking was established.
+- Read installed to-spec, to-tickets, tdd and code-review skills. User approvals
+  already cover specification, tickets, dependencies and public seams.
+- No native integration acceptance was established by these checks.

@@ -33,13 +33,12 @@ implementation tickets are published with native blocking links. The
 and dependencies; local ticket records are in `.scratch/fileshift/issues/`.
 See [bootstrap evidence](docs/bootstrap-evidence.md) for checks and open blockers.
 
-GitHub SSH authentication was verified for `lastnurik` using an explicit empty SSH config
-and strict host-key checking. Default SSH fails on a system include's ownership as
-exposed in this session. Git initialization remains blocked by the session's read-only
-`.git` mount, so there are no local commits or configured origin and no source push.
-Remote repository access over SSH was verified with `git ls-remote`; the repository
-currently has no source commits. The intended origin is
-`git@github.com:lastnurik/FileShift.git`.
+The approved design baseline is commit
+`1a75db0e1f32b22391a86a9ccde309611ec43cdd`, pushed through SSH to
+`git@github.com:lastnurik/FileShift.git`. Git metadata writes require approved
+escalation in the current managed sandbox. SSH uses an explicit empty config and
+strict host-key checking because the default system include has an ownership issue
+in this session. No SSH keys or system configuration were changed.
 
 ## Native integration research
 

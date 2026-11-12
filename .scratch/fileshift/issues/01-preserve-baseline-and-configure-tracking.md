@@ -2,9 +2,9 @@
 
 **What to build:** Establish an approved, licensed, publicly tracked project and preserve its design baseline before implementation.
 
-**Blocked by:** None (external session permission gate remains).
+**Blocked by:** None.
 
-**Status:** blocked (read-only Git metadata mount)
+**Status:** complete
 
 ## Acceptance criteria
 
@@ -14,10 +14,10 @@
 - [x] Check existing repository, create public repository if absent, and verify administrative access.
 - [x] Verify GitHub SSH authentication and read access to the intended repository.
 - [x] Install and smoke-verify Rust, Cargo, rustfmt and Clippy.
-- [ ] Initialize local Git and commit the preserved design baseline.
-- [ ] Record baseline SHA for the required standards/spec review.
-- [ ] Configure SSH origin and verify source push.
-- [ ] Complete separate standards/spec review and individual task commit.
+- [x] Initialize local Git and commit the preserved design baseline.
+- [x] Record baseline SHA for the required standards/spec review.
+- [x] Configure SSH origin and verify source push.
+- [x] Complete separate standards/spec review and individual task commit.
 
 ## Evidence
 
@@ -33,11 +33,14 @@ implementation or native interaction is claimed. SSH authentication for the repo
 owner and git ls-remote read access passed with explicit SSH configuration and strict
 host-key checking.
 
-The execution session mounts .git read-only. Git initialization fails with Read-only
-file system, and no approval escalation is available. No alternate metadata directory,
-API source commit, or filesystem workaround was used. There is no local baseline,
-configured origin, source push, or formal Git-diff review.
+Approved escalation initialized Git and preserved design baseline
+`1a75db0e1f32b22391a86a9ccde309611ec43cdd`. SSH origin is configured and main
+was pushed successfully. Sandbox metadata remains read-only; approved escalation
+handles writes without changing the managed configuration.
 
 Detailed checks: docs/bootstrap-evidence.md.
+
+Commit 824b327 records FS-01 evidence. Independent standards and spec reviewers
+each reported zero findings against baseline 1a75db0. No native acceptance is implied.
 
 **GitHub issue:** https://github.com/lastnurik/FileShift/issues/2

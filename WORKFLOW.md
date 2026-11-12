@@ -4,7 +4,12 @@
 
 The design interview is concluded. Implement PROJECT.md; resolve remaining technical choices through documentation, prototypes, and measured evidence. Ask one question at a time when a product decision, credential, missing test environment, or mandatory skill checkpoint blocks progress.
 
-The intended repository is public, with SSH Git transport, one commit per completed task, native packages, and a source-build option. The current session still mounts .git read-only and git init fails. Recheck current state and permissions; use normal approval handling rather than evading restrictions. The public repository lastnurik/FileShift and approved specification/tickets exist, and SSH access is verified, but local Git initialization, baseline commit, origin configuration and source push remain blocked. See docs/bootstrap-evidence.md.
+The repository is public, with SSH Git transport, one commit per completed task,
+native packages, and a source-build option. The design baseline is
+`1a75db0e1f32b22391a86a9ccde309611ec43cdd`, pushed to lastnurik/FileShift.
+The managed sandbox still mounts .git read-only; approved escalation enabled Git
+initialization, commits, and the SSH push. Use normal approval handling for Git
+metadata writes. See docs/bootstrap-evidence.md for historical and current checks.
 
 ## Bootstrap
 
