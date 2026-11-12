@@ -4,7 +4,7 @@
 
 **Blocked by:** FS-01.
 
-**Status:** blocked (ticket dependencies)
+**Status:** ready for native implementation; native environment unavailable in the current session
 
 ## Acceptance criteria
 
@@ -24,4 +24,11 @@ The proposed native slice uses a small AppKit host, foreground Finder validation
 
 Sources: [frontmost application](https://developer.apple.com/documentation/appkit/nsworkspace/frontmostapplication), [Apple Events consent](https://developer.apple.com/videos/play/wwdc2019/701/), [Services provider](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/SysServices/Articles/providing.html), [Finder Sync scope](https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/Finder.html).
 
-No macOS implementation, installed package or native acceptance has run. Baseline and native environment gates remain open. Detailed findings are maintained locally for the eventual source commit.
+No macOS implementation, installed package or native acceptance has run. The baseline gate was subsequently completed under FS-01; the native environment gate remains open. Research findings are published under docs/research.
+
+## Bootstrap dependency resolved — 2026-11-12
+
+FS-01 is complete and issue #2 is closed. The approved dependency edge remains
+recorded; its gate is satisfied. Source baseline and Rust prototype commits are
+published. Native platform implementation/acceptance still requires the named
+platform environment and remains open; Linux smoke evidence does not substitute.
