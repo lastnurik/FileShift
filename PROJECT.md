@@ -84,7 +84,7 @@ Each conversion route must define input probing, fidelity, output verification, 
 
 ## Implementation status
 
-This repository currently contains design documents, not a working utility. Rust is selected; GUI toolkit, codecs, document engines, exact platform version support, package formats, and numerical resource budgets require documented prototype evidence. README must publish only commands that exist and have been verified. Planned user-facing capabilities include diagnostics, explicit-file conversion for repeatable testing, and desktop activation; finalize command names during implementation.
+This repository contains design documents and a Linux selection-inspection prototype, not a working converter. Rust is selected; GUI toolkit, codecs, document engines, exact platform version support, package formats, and numerical resource budgets require documented prototype evidence. README must publish only commands that exist and have been verified. Planned user-facing capabilities include diagnostics, explicit-file conversion for repeatable testing, and desktop activation; finalize command names during implementation.
 
 ## Decision records
 

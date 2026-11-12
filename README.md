@@ -21,8 +21,30 @@ cargo --version
 Verified on Ubuntu 26.04.1 LTS, GNOME Shell 50.1, Wayland, GNOME Files 50.2.2:
 Rust/Cargo 1.99.1, rustfmt and Clippy are available; a temporary offline Cargo project
 compiled, passed its smoke test, and ran. This verifies the toolchain, not FileShift.
-The local installation is not part of a source checkout; no FileShift Cargo project,
-source-build instructions, or package/install commands exist yet.
+The local installation is not part of a source checkout. For a clean Ubuntu source
+checkout, install Rust with rustup and the system C linker toolchain, then run:
+
+```sh
+cargo build --workspace --locked --offline
+cargo test --workspace --locked --offline
+cargo clippy --workspace --all-targets --locked --offline -- -D warnings
+python3 -m unittest discover -s platform/linux/tests -v
+```
+
+These commands pass with Rust/Cargo 1.99.1 on the environment above. The Cargo
+workspace has no third-party dependencies. Python 3 is used only for developer
+script setup/tests. The disposable Linux popup requires `/usr/bin/zenity`
+(tested command interface: 4.2.1). Example without opening a popup:
+
+```sh
+target/debug/fileshift-prototype --check --nautilus-script -- README.md
+```
+
+The diagnostic output contains accepted/rejected counts and no paths. The real
+popup is a clearly marked selection-inspection prototype with no conversion routes.
+See the [prototype procedure](docs/research/ubuntu-prototype-procedure.md) for
+staging, developer installation/removal, and pending native checks. No native
+installer/package, global shortcut, or platform compatibility is established.
 
 ## Work tracking
 

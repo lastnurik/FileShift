@@ -4,7 +4,7 @@
 
 **Blocked by:** FS-01.
 
-**Status:** blocked (ticket dependencies)
+**Status:** in progress (implementation checked; native acceptance pending)
 
 ## Acceptance criteria
 
@@ -15,7 +15,8 @@
 ## Evidence
 
 Approved breakdown and public seams: docs/continuation-proposal.md.
-No completed native acceptance, implementation review, or task commit.
+Native acceptance is incomplete. The development implementation is committed and
+reviewed separately; see the dated implementation/review evidence below.
 
 **GitHub issue:** https://github.com/lastnurik/FileShift/issues/3
 
@@ -25,4 +26,21 @@ Nautilus 50.2.2 source shows the Scripts context action and its view-local accel
 
 Sources: [Nautilus 50.2.2 files-view implementation](https://gitlab.gnome.org/GNOME/nautilus/-/blob/50.2.2/src/nautilus-files-view.c), [GNOME script behavior](https://help.gnome.org/gnome-help/nautilus-behavior.html).
 
-This is inspected source behavior, not native acceptance. No popup, installation, selection capture or file conversion has been demonstrated. The baseline-first gate remains open.
+This is inspected source behavior, not native acceptance. No popup, installation, selection capture or file conversion has been demonstrated. The baseline-first gate was subsequently completed under FS-01.
+
+## Development implementation — 2026-11-12
+
+FS-01 bootstrap is complete. Rust activation model and Linux selection validator,
+Zenity diagnostic presenter, and Nautilus script setup/removal are implemented.
+Cargo tests (3) and gateway tests (2), Clippy and formatting pass. Workspace staging
+checks installation and removal; direct --check invocation also passes. No converters are advertised.
+Native desktop observation remains unavailable; all native acceptance boxes stay open.
+See docs/research/ubuntu-prototype-procedure.md for the pending smoke procedure.
+
+## Independent review
+
+Standards review found platform-specific text in the Rust core; fixed by returning
+structured status codes and rendering GNOME instructions in the Linux presenter.
+Spec review confirmed native observations remain pending and identified stale
+historical ticket text, corrected here. Automated checks cannot establish native
+identity, selection provenance, focus, placement or keyboard dismissal.

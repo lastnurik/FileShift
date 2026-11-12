@@ -40,7 +40,7 @@ handles writes without changing the managed configuration.
 
 Detailed checks: docs/bootstrap-evidence.md.
 
-Commit 824b327 records FS-01 evidence. Independent standards and spec reviewers
+The FS-01 task commit records this evidence. Independent standards and spec reviewers
 each reported zero findings against baseline 1a75db0. No native acceptance is implied.
 
 **GitHub issue:** https://github.com/lastnurik/FileShift/issues/2

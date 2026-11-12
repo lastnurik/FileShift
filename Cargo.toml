@@ -1,0 +1,9 @@
+[workspace]
+members = ["crates/fileshift-core", "crates/fileshift-prototype"]
+resolver = "3"
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.85"
+license = "MIT"
+

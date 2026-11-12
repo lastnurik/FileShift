@@ -1,9 +1,8 @@
 # Bootstrap evidence — 2026-11-12
 
-Status: approved planning/tracker configuration applied; bootstrap is incomplete.
-No FileShift code or native prototype has been implemented or tested. AGENTS.md now
-links the approved tracker/domain configuration. The initial inspection below is
-historical; follow-up results appear at the end.
+Status: bootstrap is complete through approved escalation; a Linux development
+prototype is implemented with automated checks. Native platform acceptance is open.
+The initial inspection below is historical; follow-up results appear at the end.
 
 ## Observed environment
 
@@ -185,3 +184,36 @@ permissions, mount, or alternate metadata directory was changed.
 - Read installed to-spec, to-tickets, tdd and code-review skills. User approvals
   already cover specification, tickets, dependencies and public seams.
 - No native integration acceptance was established by these checks.
+
+## FS-02 development implementation
+
+Implemented a dependency-free Cargo workspace with a desktop-independent activation
+model, Linux local-path validator, Zenity diagnostic presenter and Nautilus script
+setup/removal. Astra owned the script gateway and native procedure; the coordinator
+reviewed its code and independently ran both gateway checks. No converter exists.
+
+Observed TDD: snapshot test failed on missing public types, passed after the model;
+empty/unsupported status test failed on missing variants, passed after handling;
+CLI validation test failed on absent output, passed after validation/presentation.
+Astra reports individual red/green gateway setup and removal tests. Final checks:
+Cargo test (3 tests), Clippy -D warnings, rustfmt, gateway unittest (2 tests), and
+workspace-staged install/remove and direct --check invocation. No dependency download is required.
+
+Context7 could not resolve Zenity (only unrelated names returned). Used installed
+GNOME Zenity 4.2.1 help pages info.page/usage.page and --help-info/--help-general for
+command flags/exit codes; the former web help URL returned 404. GTK4-rs was resolved
+but not selected: GTK development packages are absent, and a disposable existing
+Zenity presenter is sufficient for this experiment without settling the GUI toolkit.
+
+Environment remains Ubuntu 26.04.1 LTS, GNOME Shell 50.1, Wayland, Files 50.2.2,
+Zenity 4.2.1. Automated native-app control is unavailable in this session (browser
+control is available only); no Files interaction or popup observation was performed.
+FS-02 remains open for real selection, popup focus/placement, keyboard/Escape,
+setup failure feedback and native installation/removal. FS-03 and Windows/macOS
+native acceptance remain open; the feasibility gate still blocks full conversion.
+
+FS-02 independent standards review found GNOME presentation text in the core.
+Moved that wording into the Linux presenter; core returns structured status codes.
+Spec review confirmed native requirements remain pending and requested historical
+ticket text corrections; those are applied. Rechecked Cargo tests, Clippy,
+formatting and gateway checks after the review fix.
