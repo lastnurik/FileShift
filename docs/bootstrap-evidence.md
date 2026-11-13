@@ -288,3 +288,24 @@ resolved its input-scope finding. Standards: zero remaining findings. Spec: zero
 new findings; the actual context-menu checkbox correctly remains open. Astra's
 CLI regression additions were independently run by the coordinator; no unreviewed
 agent implementation was accepted.
+
+## User-reported Files lockup — investigation open
+
+The user reports right-click and window closing stopped responding after the
+published installation commands, and removing the script restored Files. The
+normal desktop script is absent. Installation guidance is withdrawn; FS-02 is
+blocked and FS-03 must not advance. Prior action-handler checks did not cover
+context-menu construction.
+
+Added a guarded isolated menu diagnostic and Xvfb/session-bus runner. Fresh X11
+controls with script absent/installed pass actual right-click, menu dismissal and
+Files-close responsiveness. The installed Scripts submenu was visually confirmed
+on a private screenshot. A deliberate SIGSTOP calibration fails the same checks;
+this is detector validation, not reproduction of the user's bug. Private headless
+Wayland baseline remains inconclusive (menu opens, Escape not observed, accessible
+close still works), so no installed Wayland pass or product fix is claimed.
+
+The investigation used temporary homes/displays/buses and extracted development
+tools; it did not reinstall into the user's real desktop or restart real Files.
+See docs/research/ubuntu-menu-lockup.md. Root cause remains unconfirmed pending
+exact before-menu/after-invocation evidence and a matching controlled reproduction.

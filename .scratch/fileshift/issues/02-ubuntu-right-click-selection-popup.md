@@ -4,7 +4,7 @@
 
 **Blocked by:** FS-01.
 
-**Status:** in progress (native handler/keyboard/selection checks passed; actual menu invocation pending)
+**Status:** blocked by reported native context-menu/window-close lockup; desktop installation withdrawn
 
 ## Acceptance criteria
 
@@ -80,3 +80,18 @@ Actual menu navigation remains unchecked. A human observation window expired
 without a recorded invocation; no right-click result was inferred from the handler
 checks. Keep the issue open. Broader tabs/remote/restart/placement evidence and all
 other-platform acceptance remain open; no converter/package is claimed.
+
+## User-reported regression — 2026-11-13
+
+After running the documented installation, right-click stopped working in Files
+and its window could not be closed. Removing the prototype script restored normal
+behavior. This is native failure evidence, not missing confirmation. Leave the
+script uninstalled on the everyday desktop. Do not close FS-02 or advance FS-03.
+
+Prior handler/keyboard checks remain valid only for their narrow boundaries;
+they did not test real menu construction and did not establish safe installation.
+A guarded isolated Files/display/session-bus diagnostic now exercises actual
+menu construction. X11 absent/installed controls pass; a deliberately injected
+freeze fails the detector. The actual reported regression is not reproduced.
+A private Wayland baseline remains inconclusive. Root cause and fix are not
+established; see docs/research/ubuntu-menu-lockup.md.

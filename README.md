@@ -9,6 +9,20 @@ or Ubuntu desktop integration has passed full native acceptance. A GNOME Files
 action-handler smoke check reaches a visible popup and passes keyboard dismissal;
 actual right-click menu acceptance remains open.
 
+## Native installation temporarily withdrawn
+
+A user reports that installing the Nautilus script makes Files context menus and
+window closing stop responding; removing it restores normal behavior. Leave the
+script uninstalled. The earlier handler/keyboard tests did not exercise real menu
+construction and do not establish that installation is safe. FS-02 is blocked on
+reproducing and fixing this regression in an isolated Files session.
+
+Use `fileshift-prototype --check` for non-desktop diagnostics while this is open.
+The [lockup investigation](docs/research/ubuntu-menu-lockup.md) records the isolated
+controls, detector calibration and unresolved Wayland baseline.
+Do not run the native smoke commands below on the everyday desktop; they install
+a script there. Their historical results are retained as limited evidence only.
+
 ## Development environment
 
 The current workspace has a local Rust installation under `.tools/` (ignored by Git).
