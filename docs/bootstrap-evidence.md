@@ -259,3 +259,32 @@ Failure-path verification invoked the native smoke with /bin/false as a delibera
 failing process boundary. It exited 1 after the expected popup timeout. Independent
 inspection found zero owned fixture windows and no installed prototype script.
 This checks timeout cleanup without claiming keyboard or menu acceptance.
+
+## FS-02 continuation — 2026-11-13
+
+Native handler checks now cover exact unusual-name delivery (7 accepted), mixed
+selection (2 accepted, 4 rejected), empty local-view status, frozen popup state and
+isolation from a second Files window. Test-only private Mutter 50.1 input verified
+Tab/Shift+Tab focus and observed Escape dismissal on the owned active popup.
+No clipboard/screen capture or product activation dependency was added. Focus is
+rechecked immediately before each key-down; modifiers/session are released on exit.
+
+Observed failures led to minimal harness corrections: stale accessibility objects,
+startup action registration, disabled Select All on an empty view, and retaining
+owned frame identity across title changes. A red/green public gateway check exposed
+an unredacted missing-executable shell error; gateway v2 now shows a visible generic
+setup dialog and redacted stderr. Exact legacy v1 removal remains supported.
+Native staged-gateway setup-error UI verification passed.
+
+All six Rust tests and four gateway tests, rustfmt and Clippy passed. Actual
+right-click-menu observation was requested once; its five-minute wait expired and
+cleaned up without an invocation. It remains open, alongside broader tabs, remote
+views, pointer anchoring and restart/login evidence. FS-02 is not closed, and the
+full converter feasibility gate is unchanged. Full commands and results are in
+docs/research/ubuntu-prototype-procedure.md.
+
+The final independent standards review confirmed the immediate per-key focus check
+resolved its input-scope finding. Standards: zero remaining findings. Spec: zero
+new findings; the actual context-menu checkbox correctly remains open. Astra's
+CLI regression additions were independently run by the coordinator; no unreviewed
+agent implementation was accepted.

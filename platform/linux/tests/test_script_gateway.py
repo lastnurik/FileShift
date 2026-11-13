@@ -58,6 +58,40 @@ class ScriptGatewayTests(unittest.TestCase):
             subprocess.run(command, check=True, capture_output=True)
             self.assertFalse(script.exists())
 
+    def test_missing_executable_reports_a_redacted_setup_error(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            binary = root / "private executable name"
+            binary.write_text("#!/bin/sh\nexit 0\n")
+            binary.chmod(0o700)
+            scripts = root / "scripts"
+            subprocess.run(
+                [sys.executable, SETUP, "install", "--binary", binary,
+                 "--scripts-dir", scripts], check=True, capture_output=True,
+            )
+            binary.unlink()
+            result = subprocess.run(
+                [scripts / "FileShift Prototype"],
+                env={**os.environ, "DISPLAY": "", "WAYLAND_DISPLAY": ""},
+                capture_output=True, timeout=5,
+            )
+            self.assertNotEqual(result.returncode, 0)
+            self.assertEqual(result.stderr,
+                             b"FileShift prototype executable is unavailable; reinstall the prototype.\n")
+            self.assertEqual(result.stdout, b"")
+
+    def test_removal_recognizes_the_published_v1_gateway(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            script = root / "FileShift Prototype"
+            script.write_bytes(b'#!/bin/sh\n# FileShift development prototype gateway v1\nexec /bin/true --nautilus-script -- "$@"\n')
+            result = subprocess.run(
+                [sys.executable, SETUP, "remove", "--binary", "/bin/true",
+                 "--scripts-dir", root], capture_output=True,
+            )
+            self.assertEqual(result.returncode, 0)
+            self.assertFalse(script.exists())
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -187,3 +187,95 @@ all pass. Physical right-click and Escape remain unverified.
 Failure-path check: the same helper with /bin/false as its disposable process
 boundary returned the expected timeout failure. Independent inspection confirmed
 zero owned fixture windows and no remaining installed script after cleanup.
+
+## FS-02 continuation — 2026-11-13
+
+The same Ubuntu 26.04.1 / GNOME Shell 50.1 / Wayland / Files 50.2.2 /
+Zenity 4.2.1 host now has an explicit keyboard smoke mode:
+
+```sh
+python3 platform/linux/native_action_smoke.py --run --keyboard \
+  --binary "$PWD/target/debug/fileshift-prototype"
+```
+
+Observed: both fixture identities arrived, the popup was SHOWING and ACTIVE,
+Tab and Shift+Tab left the single Close control focused, and Escape dismissed
+that owned popup. This supersedes the earlier inconclusive AT-SPI key synthesis
+attempt. The helper checks the actual disappearance, not only an input API result.
+
+Keyboard injection is test instrumentation through the version-specific private
+Mutter RemoteDesktop API, not a shipped FileShift dependency or a global shortcut
+implementation. It creates a temporary input session only for an owned active
+popup, releases held modifiers, stops the session, and never enables clipboard or
+screen capture. Context7 resolved Mutter but lacked these API details; official
+Mutter 50.1 source archive and the host's D-Bus introspection supplied the contract:
+[official source archive](https://download.gnome.org/sources/mutter/50/mutter-50.1.tar.xz),
+`data/dbus-interfaces/org.gnome.Mutter.RemoteDesktop.xml` and
+`src/backends/meta-remote-desktop-session.c`. The source explicitly calls this API
+private and makes no version compatibility promise.
+
+Native runs exposed two harness races: applications exiting during accessibility
+lookup, and Files actions not being registered immediately after a window appears.
+Lookup now tolerates vanished objects; action invocation waits for availability.
+Cleanup also retains the owned frame reference because navigation can change its
+title. Script removal remains matching-content-only.
+
+Additional CLI regression checks passed for symlink/dangling/deleted/unreadable
+files and a FIFO without a writer. Seven relative filenames, including shell
+metacharacters, a newline and a non-UTF-8 byte, were accepted without filenames in
+diagnostics. Those are CLI checks, not claims about Files argument delivery.
+All six Rust tests, two gateway tests, formatting and Clippy passed.
+
+The helper also offers `--case unusual`, `--case mixed`, and `--case empty` for
+further native observations. Their results must be recorded before claiming them.
+`--manual-menu` waits up to five minutes for an actual human menu invocation; the
+observer alone cannot establish which UI gesture a human used. Physical menu
+acceptance requires that observation as well as the captured invocation.
+
+### Observed continuation results
+
+| Check on the named Ubuntu session | Result |
+| --- | --- |
+| Seven selected names: spaces, Unicode, quotes, shell metacharacters, leading dash, newline, raw non-UTF-8 byte | Native exact-path observer and popup: 7 accepted, 0 rejected |
+| Two regular files plus directory, symlink, FIFO and unreadable file | Native exact-path observer and popup: 2 accepted, 4 rejected |
+| Empty local Files view | Native empty invocation and actionable popup status; 0 accepted, 0 rejected |
+| Change Files selection after popup arrival | Popup remained frozen |
+| Another Files window with three different selected fixtures | Original window action captured only its own two fixtures |
+| Tab/Shift+Tab/Escape | Close control focused after navigation; Escape actually dismissed the active owned popup |
+| Missing executable | Visible redacted setup dialog; exit 1 and redacted stderr |
+| Actual human context-menu invocation | Five-minute wait expired; unverified |
+
+Reproduce the native action-handler observations with:
+
+```sh
+python3 platform/linux/native_action_smoke.py --run --keyboard --freeze-check --decoy-window \
+  --binary "$PWD/target/debug/fileshift-prototype"
+python3 platform/linux/native_action_smoke.py --run --keyboard --case unusual --freeze-check \
+  --binary "$PWD/target/debug/fileshift-prototype"
+python3 platform/linux/native_action_smoke.py --run --keyboard --case mixed --freeze-check \
+  --binary "$PWD/target/debug/fileshift-prototype"
+python3 platform/linux/native_action_smoke.py --run --keyboard --case empty \
+  --binary "$PWD/target/debug/fileshift-prototype"
+python3 platform/linux/native_setup_error_smoke.py --run
+```
+
+The empty-view check skips Select All, which Files disables when there are no
+items. A previous harness run timed out on that disabled action; the corrected
+empty invocation and keyboard dismissal passed. No empty-selection behavior was
+inferred from a nonlocal view.
+
+Gateway v2 now checks for a missing executable and shows a redacted Zenity error
+in a graphical session; headless invocation reports the same redacted error on
+stderr. A public gateway test first failed on the old shell error (which exposed
+the configured executable path), then passed after the fix. Removal recognizes
+only the exact v1/v2 generated contents for the configured executable and still
+refuses modified scripts or symlinks. The native setup-error smoke uses a staged
+gateway in a private temporary directory and an owned process group, not a Files
+menu invocation. Installed native-home script creation/removal is covered by the
+other native cases.
+
+Final routine checks: six Rust tests, four gateway tests, formatting, and Clippy
+with warnings denied passed. Native tests require the installed system Python GI,
+AT-SPI and (for keyboard mode) python3-dbus. Windows/macOS, actual menu navigation,
+remote/virtual views, tabs, pointer anchoring and restart/login evidence remain
+open. The prototype is not a native end-user package or a working converter.

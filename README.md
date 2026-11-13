@@ -6,8 +6,8 @@ file manager. The product contract is in [PROJECT.md](PROJECT.md), terminology i
 
 There is no working converter or native installation package yet. No Windows, macOS,
 or Ubuntu desktop integration has passed full native acceptance. A GNOME Files
-action-handler smoke check now reaches a visible popup; keyboard and actual
-right-click menu acceptance remain open.
+action-handler smoke check reaches a visible popup and passes keyboard dismissal;
+actual right-click menu acceptance remains open.
 
 ## Development environment
 
@@ -49,14 +49,29 @@ An opt-in native action-handler smoke check is also available on the tested host
 with system Python GI and AT-SPI introspection installed:
 
 ```sh
-python3 platform/linux/native_action_smoke.py --run \
+python3 platform/linux/native_action_smoke.py --run --keyboard --freeze-check --decoy-window \
   --binary "$PWD/target/debug/fileshift-prototype"
 ```
 
 It temporarily installs an owned script, opens a disposable fixture window and
 popup, verifies its accessible state/counts, then removes the script and closes
-its window. It refuses an existing script or popup. This passed on the named
-Ubuntu environment; it does not test actual context-menu navigation or Escape.
+its window. It refuses an existing script or popup. This passed on the named Ubuntu environment,
+including exact selection, isolation from another window, frozen popup state,
+Tab/Shift+Tab focus and Escape dismissal. Keyboard input uses a temporary,
+version-specific Mutter test session; it is not part of product activation.
+
+Native unusual-name, mixed-selection and empty-view cases also passed with
+`--case unusual`, `--case mixed`, and `--case empty` respectively. The mixed case
+requires an unprivileged user for its unreadable-file check. A redacted missing
+executable dialog was verified with:
+
+```sh
+python3 platform/linux/native_setup_error_smoke.py --run
+```
+
+Actual context-menu navigation remains unverified. `--manual-menu` opens a
+five-minute observation window; the previous wait expired without an invocation.
+Native popup anchoring, tabs, remote views and restart/login remain open.
 
 See the [prototype procedure](docs/research/ubuntu-prototype-procedure.md) for
 staging, developer installation/removal, and pending native checks. No native

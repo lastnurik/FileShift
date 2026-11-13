@@ -4,13 +4,13 @@
 
 **Blocked by:** FS-01.
 
-**Status:** in progress (implementation checked; native acceptance pending)
+**Status:** in progress (native handler/keyboard/selection checks passed; actual menu invocation pending)
 
 ## Acceptance criteria
 
 - [ ] Actual GNOME Files selection opens a visibly marked prototype popup from a context action.
-- [ ] multi-selection, keyboard navigation, Escape, invalid local items and no-selection behavior checked.
-- [ ] record install/removal and exact session versions.
+- [x] multi-selection, keyboard navigation, Escape, invalid local items and no-selection behavior checked.
+- [x] record install/removal and exact session versions.
 
 ## Evidence
 
@@ -59,3 +59,24 @@ The follow-up native run also verified both exact fixture paths through a privat
 launcher observer, required SHOWING and ACTIVE, and used scoped process ownership
 for timeout cleanup. The fixture identity case passed; unusual filename bytes,
 multiple windows/tabs and full desktop interaction still require native checks.
+
+## Continuation — 2026-11-13
+
+On Ubuntu 26.04.1, GNOME Shell 50.1, Wayland, Files 50.2.2 and Zenity 4.2.1:
+
+- Native exact delivery passed for seven unusual filenames, including newline and
+  a non-UTF-8 byte; 7 accepted and 0 rejected.
+- Native mixed selection passed: 2 regular files accepted; directory, symlink,
+  FIFO and unreadable file rejected. Empty local-view status passed separately.
+- Native popup remained frozen after source selection changed; a different Files
+  window's three-file selection did not replace the invoked window's selection.
+- Temporary compositor input verified Tab/Shift+Tab focus and actual Escape
+  dismissal, superseding earlier inconclusive accessibility synthesis.
+- Missing executable now yields a visible redacted setup error. Six Rust tests,
+  four gateway tests, formatting and Clippy passed. Scripts/windows were removed
+  after the checks; originals and outputs were untouched.
+
+Actual menu navigation remains unchecked. A human observation window expired
+without a recorded invocation; no right-click result was inferred from the handler
+checks. Keep the issue open. Broader tabs/remote/restart/placement evidence and all
+other-platform acceptance remain open; no converter/package is claimed.

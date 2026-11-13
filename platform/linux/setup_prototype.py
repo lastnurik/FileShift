@@ -23,14 +23,27 @@ def main():
     ):
         parser.error("binary must be an existing executable file")
     # Quote only the configured executable. Selected names remain individual argv.
-    content = os.fsencode(
+    legacy_content = os.fsencode(
         "#!/bin/sh\n# FileShift development prototype gateway v1\n"
         f'exec {shlex.quote(str(args.binary))} --nautilus-script -- "$@"\n'
+    )
+    executable = shlex.quote(str(args.binary))
+    content = os.fsencode(
+        "#!/bin/sh\n# FileShift development prototype gateway v2\n"
+        f"if [ ! -f {executable} ] || [ ! -x {executable} ]; then\n"
+        "    message='FileShift prototype executable is unavailable; reinstall the prototype.'\n"
+        "    printf '%s\\n' \"$message\" >&2\n"
+        "    if [ -x /usr/bin/zenity ] && { [ -n \"${DISPLAY:-}\" ] || [ -n \"${WAYLAND_DISPLAY:-}\" ]; }; then\n"
+        "        /usr/bin/zenity --error --no-markup --title='FileShift setup required' --text=\"$message\" 2>/dev/null || :\n"
+        "    fi\n"
+        "    exit 1\n"
+        "fi\n"
+        f'exec {executable} --nautilus-script -- "$@"\n'
     )
     script = args.scripts_dir / "FileShift Prototype"
     try:
         if args.operation == "remove":
-            if script.is_symlink() or script.read_bytes() != content:
+            if script.is_symlink() or script.read_bytes() not in (content, legacy_content):
                 print("Refusing to remove a script that differs from this prototype.",
                       file=sys.stderr)
                 return 1
